@@ -30,7 +30,7 @@ namespace WishListTests
         {
             var userManager = typeof(ItemController).GetField("_userManager", BindingFlags.NonPublic | BindingFlags.Instance);
             Assert.True(userManager != null, "`ItemController` does not appear to contain a `private` `readonly` field `_userManager` of type `UserManager` with a type argument of `ApplicationUser`.");
-            Assert.True(userManager.FieldType == typeof(UserManager<ApplicationUser>), "`ItemController` has a `_userManager` field but it is not of type `UserManager` with a type argument of `ApplicationUser`.");
+            Assert.True(userManager.FieldType == typeof(UserManager<RegisterViewModel>), "`ItemController` has a `_userManager` field but it is not of type `UserManager` with a type argument of `ApplicationUser`.");
             Assert.True(userManager.IsInitOnly, "`ItemController` has a `_userManager` field but it is not `readonly`.");
         }
 
@@ -39,10 +39,10 @@ namespace WishListTests
         {
             var constructor = typeof(ItemController).GetConstructors().FirstOrDefault();
             var parameters = constructor.GetParameters();
-            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(ApplicationDbContext) && parameters[1]?.ParameterType == typeof(UserManager<ApplicationUser>)), "`ItemController` did not contain a constructor with two parameters, first of type `ApplicationDbContext`, second of type `UserManager` with a type argument of `ApplicationUser`.");
+            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(ApplicationDbContext) && parameters[1]?.ParameterType == typeof(UserManager<RegisterViewModel>)), "`ItemController` did not contain a constructor with two parameters, first of type `ApplicationDbContext`, second of type `UserManager` with a type argument of `ApplicationUser`.");
 
-            var userStore = new Mock<IUserStore<ApplicationUser>>();
-            var userManager = new UserManager<ApplicationUser>(userStore.Object, null, null, null, null, null, null, null, null);
+            var userStore = new Mock<IUserStore<RegisterViewModel>>();
+            var userManager = new UserManager<RegisterViewModel>(userStore.Object, null, null, null, null, null, null, null, null);
             var optionsBuilder = new DbContextOptionsBuilder();
             var applicationDbContext = new ApplicationDbContext(optionsBuilder.Options);
             var controller = Activator.CreateInstance(typeof(ItemController), new object[] { applicationDbContext, userManager }) as ItemController;
@@ -56,11 +56,11 @@ namespace WishListTests
             Assert.True(method != null, "`ItemController` did not contain an `Index` method did you remove or rename it?");
             var constructor = typeof(ItemController).GetConstructors().FirstOrDefault();
             var parameters = constructor.GetParameters();
-            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(ApplicationDbContext) && parameters[1]?.ParameterType == typeof(UserManager<ApplicationUser>)), "`ItemController` did not contain a constructor with two parameters, first of type `ApplicationDbContext`, second of type `UserManager` with a type argument of `ApplicationUser`.");
+            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(ApplicationDbContext) && parameters[1]?.ParameterType == typeof(UserManager<RegisterViewModel>)), "`ItemController` did not contain a constructor with two parameters, first of type `ApplicationDbContext`, second of type `UserManager` with a type argument of `ApplicationUser`.");
 
-            var userStore = new Mock<IUserStore<ApplicationUser>>();
-            var appuser = new ApplicationUser() { Email = "test@test.com" };
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
+            var userStore = new Mock<IUserStore<RegisterViewModel>>();
+            var appuser = new RegisterViewModel() { Email = "test@test.com" };
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
             userManager.Setup(e => e.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(appuser).Verifiable();
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseInMemoryDatabase("Test");
@@ -92,11 +92,11 @@ namespace WishListTests
             Assert.True(method != null, "`ItemController` did not contain a `Create` method did you remove or rename it?");
             var constructor = typeof(ItemController).GetConstructors().FirstOrDefault();
             var parameters = constructor.GetParameters();
-            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(ApplicationDbContext) && parameters[1]?.ParameterType == typeof(UserManager<ApplicationUser>)), "`ItemController` did not contain a constructor with two parameters, first of type `ApplicationDbContext`, second of type `UserManager` with a type argument of `ApplicationUser`.");
+            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(ApplicationDbContext) && parameters[1]?.ParameterType == typeof(UserManager<RegisterViewModel>)), "`ItemController` did not contain a constructor with two parameters, first of type `ApplicationDbContext`, second of type `UserManager` with a type argument of `ApplicationUser`.");
 
-            var userStore = new Mock<IUserStore<ApplicationUser>>();
-            var appuser = new ApplicationUser() { Email = "test@test.com" };
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
+            var userStore = new Mock<IUserStore<RegisterViewModel>>();
+            var appuser = new RegisterViewModel() { Email = "test@test.com" };
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
             userManager.Setup(e => e.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(appuser).Verifiable();
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseInMemoryDatabase("Test");
@@ -125,11 +125,11 @@ namespace WishListTests
             Assert.True(method != null, "`ItemController` did not contain a `Delete` method did you remove or rename it?");
             var constructor = itemController.GetConstructors().FirstOrDefault();
             var parameters = constructor.GetParameters();
-            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(ApplicationDbContext) && parameters[1]?.ParameterType == typeof(UserManager<ApplicationUser>)), "`ItemController` did not contain a constructor with two parameters, first of type `ApplicationDbContext`, second of type `UserManager` with a type argument of `ApplicationUser`.");
+            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(ApplicationDbContext) && parameters[1]?.ParameterType == typeof(UserManager<RegisterViewModel>)), "`ItemController` did not contain a constructor with two parameters, first of type `ApplicationDbContext`, second of type `UserManager` with a type argument of `ApplicationUser`.");
 
-            var userStore = new Mock<IUserStore<ApplicationUser>>();
-            var appuser = new ApplicationUser() { Email = "test@test.com" };
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
+            var userStore = new Mock<IUserStore<RegisterViewModel>>();
+            var appuser = new RegisterViewModel() { Email = "test@test.com" };
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
             userManager.Setup(e => e.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(appuser).Verifiable();
             var optionsBuilder = new DbContextOptionsBuilder();
             optionsBuilder.UseInMemoryDatabase("Test");
@@ -138,7 +138,7 @@ namespace WishListTests
             typeof(Item).GetProperty("User").SetValue(item, appuser);
             applicationDbContext.Items.Add(item);
             var item2 = new Item() { Id = 107, Description = "Don't Delete" };
-            typeof(Item).GetProperty("User").SetValue(item2, new ApplicationUser() { Email = "bad@user.com" });
+            typeof(Item).GetProperty("User").SetValue(item2, new RegisterViewModel() { Email = "bad@user.com" });
             applicationDbContext.Items.Add(item2);
             applicationDbContext.SaveChanges();
 

@@ -2,7 +2,7 @@
 
 namespace WishList.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class RegisterViewModel : IdentityUser
     {
     }
 }

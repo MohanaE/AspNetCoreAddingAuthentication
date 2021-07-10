@@ -67,11 +67,11 @@ namespace WishListTests
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(HttpGetAttribute)) != null, "`AccountController` did not contain a `Login` method with an `HttpGet` attribute");
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(AllowAnonymousAttribute)) != null, "`AccountController`'s Get `Login` method did not have the `AllowAnonymous` attribute");
 
-            var userStore = new Mock<IUserStore<ApplicationUser>>();
+            var userStore = new Mock<IUserStore<RegisterViewModel>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
-            var userManager = new UserManager<ApplicationUser>(userStore.Object, null, null, null, null, null, null, null, null);
-            var signInManager = new SignInManager<ApplicationUser>(userManager, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
+            var userManager = new UserManager<RegisterViewModel>(userStore.Object, null, null, null, null, null, null, null, null);
+            var signInManager = new SignInManager<RegisterViewModel>(userManager, contextAccessor.Object, claimsFactory.Object, null, null, null);
             var controller = Activator.CreateInstance(accountController, new object[] { userManager, signInManager });
             var results = method.Invoke(controller, null) as ViewResult;
             Assert.True(results != null, "`AccountController`'s HttpGet `Login` action did not return a the `Login` view.");
@@ -97,12 +97,12 @@ namespace WishListTests
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(AllowAnonymousAttribute)) != null, "`AccountController`'s `Login` method did not have the `AllowAnonymous` attribute.");
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(ValidateAntiForgeryTokenAttribute)) != null, "`AccountController`'s `Login` method did not have the `ValidateAntiForgeryToken` attribute.");
             
-            var userStore = new Mock<IUserPasswordStore<ApplicationUser>>();
+            var userStore = new Mock<IUserPasswordStore<RegisterViewModel>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
-            var signInManager = new Mock<SignInManager<ApplicationUser>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
-            signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
+            var signInManager = new Mock<SignInManager<RegisterViewModel>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<RegisterViewModel>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
             signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<string>(), "failure", It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed).Verifiable();
             signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<string>(), "success", It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
             var controller = Activator.CreateInstance(accountController, new object[] { userManager.Object, signInManager.Object });
@@ -132,12 +132,12 @@ namespace WishListTests
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(AllowAnonymousAttribute)) != null, "`AccountController`'s `Login` method did not have the `AllowAnonymous` attribute.");
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(ValidateAntiForgeryTokenAttribute)) != null, "`AccountController`'s `Login` method did not have the `ValidateAntiForgeryToken` attribute.");
 
-            var userStore = new Mock<IUserPasswordStore<ApplicationUser>>();
+            var userStore = new Mock<IUserPasswordStore<RegisterViewModel>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
-            var signInManager = new Mock<SignInManager<ApplicationUser>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
-            signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
+            var signInManager = new Mock<SignInManager<RegisterViewModel>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<RegisterViewModel>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
             signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<string>(), "failure", It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed).Verifiable();
             signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<string>(), "success", It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
             var controller = Activator.CreateInstance(accountController, new object[] { userManager.Object, signInManager.Object });
@@ -179,12 +179,12 @@ namespace WishListTests
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(AllowAnonymousAttribute)) != null, "`AccountController`'s `Login` method did not have the `AllowAnonymous` attribute.");
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(ValidateAntiForgeryTokenAttribute)) != null, "`AccountController`'s `Login` method did not have the `ValidateAntiForgeryToken` attribute.");
 
-            var userStore = new Mock<IUserPasswordStore<ApplicationUser>>();
+            var userStore = new Mock<IUserPasswordStore<RegisterViewModel>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
-            var signInManager = new Mock<SignInManager<ApplicationUser>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
-            signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
+            var signInManager = new Mock<SignInManager<RegisterViewModel>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<RegisterViewModel>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
             signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<string>(), "failure", It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed).Verifiable();
             signInManager.Setup(e => e.PasswordSignInAsync(It.IsAny<string>(), "success", It.IsAny<bool>(), It.IsAny<bool>())).ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
             var controller = Activator.CreateInstance(accountController, new object[] { userManager.Object, signInManager.Object });
@@ -237,11 +237,11 @@ namespace WishListTests
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(HttpPostAttribute)) != null, "`AccountController``s `Logout` method did not have the `HttpPost` attribute.");
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(ValidateAntiForgeryTokenAttribute)) != null, "`AccountController`'s `Logout` method did not have the `ValidateAntiForgeryToken` attribute.");
 
-            var userStore = new Mock<IUserPasswordStore<ApplicationUser>>();
+            var userStore = new Mock<IUserPasswordStore<RegisterViewModel>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
-            var signInManager = new Mock<SignInManager<ApplicationUser>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
+            var signInManager = new Mock<SignInManager<RegisterViewModel>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
             signInManager.Setup(e => e.SignOutAsync()).Verifiable();
             var controller = Activator.CreateInstance(accountController, new object[] { userManager.Object, signInManager.Object });
             var results = method.Invoke(controller, new object[] { }) as RedirectToActionResult;

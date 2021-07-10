@@ -4,7 +4,7 @@ using WishList.Models;
 
 namespace WishList.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<RegisterViewModel>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {

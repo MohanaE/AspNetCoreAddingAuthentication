@@ -117,11 +117,11 @@ namespace WishListTests
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(HttpGetAttribute)) != null, "`AccountController` did not contain a `Register` method with an `HttpGet` attribute");
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(AllowAnonymousAttribute)) != null, "`AccountController`'s Get `Register` method did not have the `AllowAnonymous` attribute");
 
-            var userStore = new Mock<IUserStore<ApplicationUser>>();
+            var userStore = new Mock<IUserStore<RegisterViewModel>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
-            var userManager = new UserManager<ApplicationUser>(userStore.Object, null, null, null, null, null, null, null, null);
-            var signInManager = new SignInManager<ApplicationUser>(userManager, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
+            var userManager = new UserManager<RegisterViewModel>(userStore.Object, null, null, null, null, null, null, null, null);
+            var signInManager = new SignInManager<RegisterViewModel>(userManager, contextAccessor.Object, claimsFactory.Object, null, null, null);
             var controller = Activator.CreateInstance(accountController, new object[] { userManager, signInManager });
             var results = method.Invoke(controller, null) as ViewResult;
             Assert.True(results != null, "`AccountController`'s HttpGet `Register` action did not return a the `Register` view.");
@@ -146,12 +146,12 @@ namespace WishListTests
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(HttpPostAttribute)) != null, "`AccountController` did not contain a `Register` method with an `HttpPost` attribute");
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(AllowAnonymousAttribute)) != null, "`AccountController`'s Post `Register` method did not have the `AllowAnonymous` attribute");
 
-            var userStore = new Mock<IUserPasswordStore<ApplicationUser>>();
+            var userStore = new Mock<IUserPasswordStore<RegisterViewModel>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
-            userManager.Setup(e => e.CreateAsync(It.IsAny<ApplicationUser>(), "success")).ReturnsAsync(IdentityResult.Success);
-            var signInManager = new Mock<SignInManager<ApplicationUser>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
+            userManager.Setup(e => e.CreateAsync(It.IsAny<RegisterViewModel>(), "success")).ReturnsAsync(IdentityResult.Success);
+            var signInManager = new Mock<SignInManager<RegisterViewModel>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
             var controller = Activator.CreateInstance(accountController, new object[] { userManager.Object, signInManager.Object });
             var model = Activator.CreateInstance(registerViewModel, null);
             registerViewModel.GetProperty("Email").SetValue(model, "Test@Test.com");
@@ -179,13 +179,13 @@ namespace WishListTests
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(HttpPostAttribute)) != null, "`AccountController` did not contain a `Register` method with an `HttpPost` attribute");
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(AllowAnonymousAttribute)) != null, "`AccountController`'s Post `Register` method did not have the `AllowAnonymous` attribute");
 
-            var userStore = new Mock<IUserPasswordStore<ApplicationUser>>();
+            var userStore = new Mock<IUserPasswordStore<RegisterViewModel>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
-            userManager.Setup(e => e.CreateAsync(It.IsAny<ApplicationUser>(), "success")).ReturnsAsync(IdentityResult.Success).Verifiable();
-            userManager.Setup(e => e.CreateAsync(It.IsAny<ApplicationUser>(), "failure")).ReturnsAsync(IdentityResult.Failed(new IdentityError[] { new IdentityError { Code = string.Empty, Description = "Bad Password" } }));
-            var signInManager = new Mock<SignInManager<ApplicationUser>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
+            userManager.Setup(e => e.CreateAsync(It.IsAny<RegisterViewModel>(), "success")).ReturnsAsync(IdentityResult.Success).Verifiable();
+            userManager.Setup(e => e.CreateAsync(It.IsAny<RegisterViewModel>(), "failure")).ReturnsAsync(IdentityResult.Failed(new IdentityError[] { new IdentityError { Code = string.Empty, Description = "Bad Password" } }));
+            var signInManager = new Mock<SignInManager<RegisterViewModel>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
             var controller = Activator.CreateInstance(accountController, new object[] { userManager.Object, signInManager.Object });
             var model = Activator.CreateInstance(registerViewModel, null);
             registerViewModel.GetProperty("Email").SetValue(model, "Test@Test.com");
@@ -227,13 +227,13 @@ namespace WishListTests
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(HttpPostAttribute)) != null, "`AccountController` did not contain a `Register` method with an `HttpPost` attribute");
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(AllowAnonymousAttribute)) != null, "`AccountController`'s Post `Register` method did not have the `AllowAnonymous` attribute");
 
-            var userStore = new Mock<IUserPasswordStore<ApplicationUser>>();
+            var userStore = new Mock<IUserPasswordStore<RegisterViewModel>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
-            userManager.Setup(e => e.CreateAsync(It.IsAny<ApplicationUser>(), "success")).ReturnsAsync(IdentityResult.Success).Verifiable();
-            userManager.Setup(e => e.CreateAsync(It.IsAny<ApplicationUser>(), "failure")).ReturnsAsync(IdentityResult.Failed(new IdentityError[] { new IdentityError { Code = string.Empty, Description = "Bad Password" } }));
-            var signInManager = new Mock<SignInManager<ApplicationUser>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
+            userManager.Setup(e => e.CreateAsync(It.IsAny<RegisterViewModel>(), "success")).ReturnsAsync(IdentityResult.Success).Verifiable();
+            userManager.Setup(e => e.CreateAsync(It.IsAny<RegisterViewModel>(), "failure")).ReturnsAsync(IdentityResult.Failed(new IdentityError[] { new IdentityError { Code = string.Empty, Description = "Bad Password" } }));
+            var signInManager = new Mock<SignInManager<RegisterViewModel>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
             var controller = Activator.CreateInstance(accountController, new object[] { userManager.Object, signInManager.Object });
             var model = Activator.CreateInstance(registerViewModel, null);
             registerViewModel.GetProperty("Email").SetValue(model, "Test@Test.com");
@@ -283,13 +283,13 @@ namespace WishListTests
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(HttpPostAttribute)) != null, "`AccountController` did not contain a `Register` method with an `HttpPost` attribute");
             Assert.True(method.CustomAttributes.FirstOrDefault(e => e.AttributeType == typeof(AllowAnonymousAttribute)) != null, "`AccountController`'s Post `Register` method did not have the `AllowAnonymous` attribute");
 
-            var userStore = new Mock<IUserPasswordStore<ApplicationUser>>();
+            var userStore = new Mock<IUserPasswordStore<RegisterViewModel>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
-            var userManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
-            userManager.Setup(e => e.CreateAsync(It.IsAny<ApplicationUser>(), "success")).ReturnsAsync(IdentityResult.Success).Verifiable();
-            userManager.Setup(e => e.CreateAsync(It.IsAny<ApplicationUser>(), "failure")).ReturnsAsync(IdentityResult.Failed(new IdentityError[] { new IdentityError { Code = string.Empty, Description = "Bad Password" } }));
-            var signInManager = new Mock<SignInManager<ApplicationUser>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
+            var userManager = new Mock<UserManager<RegisterViewModel>>(userStore.Object, null, null, null, null, null, null, null, null);
+            userManager.Setup(e => e.CreateAsync(It.IsAny<RegisterViewModel>(), "success")).ReturnsAsync(IdentityResult.Success).Verifiable();
+            userManager.Setup(e => e.CreateAsync(It.IsAny<RegisterViewModel>(), "failure")).ReturnsAsync(IdentityResult.Failed(new IdentityError[] { new IdentityError { Code = string.Empty, Description = "Bad Password" } }));
+            var signInManager = new Mock<SignInManager<RegisterViewModel>>(userManager.Object, contextAccessor.Object, claimsFactory.Object, null, null, null);
             var controller = Activator.CreateInstance(accountController, new object[] { userManager.Object, signInManager.Object });
             var model = Activator.CreateInstance(registerViewModel, null);
             registerViewModel.GetProperty("Email").SetValue(model, "Test@Test.com");
