@@ -13,7 +13,7 @@ namespace WishListTests
         public void UpdateApplicationDbContextInherritenceTest()
         {
             Assert.True(typeof(ApplicationDbContext) != null, "A `public` class `ApplicationDbContext` was not found in the `WishList.Data` namespace, was it accidentally renamed or deleted?");
-            Assert.True(typeof(ApplicationDbContext).BaseType == typeof(IdentityDbContext<RegisterViewModel>), "`ApplicationDbContext` is not inheriting an `IdentityDbContext` with a type argument of `ApplicationUser`.");
+            Assert.True(typeof(ApplicationDbContext).BaseType == typeof(IdentityDbContext<ApplicationUser>), "`ApplicationDbContext` is not inheriting an `IdentityDbContext` with a type argument of `ApplicationUser`.");
         }
 
         [Fact(DisplayName = "Call AddIdentity In Configure @call-addidentity-in-configureservices")]

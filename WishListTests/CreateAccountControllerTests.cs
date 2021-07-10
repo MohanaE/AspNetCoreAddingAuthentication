@@ -38,12 +38,12 @@ namespace WishListTests
 
             var userManager = accountController.GetField("_userManager", BindingFlags.NonPublic | BindingFlags.Instance);
             Assert.True(userManager != null, "`AccountController` does not appear to contain a `private` `readonly` field `_userManager` of type `UserManager` with a type argument of `ApplicationUser`.");
-            Assert.True(userManager.FieldType == typeof(UserManager<RegisterViewModel>), "`AccountController` has a `_userManager` field but it is not of type `UserManager` with a type argument of `ApplicationUser`.");
+            Assert.True(userManager.FieldType == typeof(UserManager<ApplicationUser>), "`AccountController` has a `_userManager` field but it is not of type `UserManager` with a type argument of `ApplicationUser`.");
             Assert.True(userManager.IsInitOnly, "`AccountController` has a `_userManager` field but it is not `readonly`.");
 
             var signInManager = accountController.GetField("_signInManager", BindingFlags.NonPublic | BindingFlags.Instance);
             Assert.True(signInManager != null, "`AccountController` does not appear to contain a `private` `readonly` field `_signInManager` of type `SignInManager` with a type argument of `ApplicationUser`.");
-            Assert.True(signInManager.FieldType == typeof(SignInManager<RegisterViewModel>), "`AccountController` has a `_signInManager` field but it is not of type `SignInManager` with a type argument of `ApplicationUser`.");
+            Assert.True(signInManager.FieldType == typeof(SignInManager<ApplicationUser>), "`AccountController` has a `_signInManager` field but it is not of type `SignInManager` with a type argument of `ApplicationUser`.");
             Assert.True(signInManager.IsInitOnly, "`AccountController` has a `_signInManager` field but it is not `readonly`.");
         }
 
@@ -58,13 +58,13 @@ namespace WishListTests
 
             var constructor = accountController.GetConstructors().FirstOrDefault();
             var parameters = constructor.GetParameters();
-            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(UserManager<RegisterViewModel>) && parameters[1]?.ParameterType == typeof(SignInManager<RegisterViewModel>)), "`AccountController` did not contain a constructor with two parameters, first of type `UserManager<ApplicationUser>`, second of type `SignInManager<ApplicationUser>`.");
+            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(UserManager<ApplicationUser>) && parameters[1]?.ParameterType == typeof(SignInManager<ApplicationUser>)), "`AccountController` did not contain a constructor with two parameters, first of type `UserManager<ApplicationUser>`, second of type `SignInManager<ApplicationUser>`.");
 
-            var userStore = new Mock<IUserStore<RegisterViewModel>>();
+            var userStore = new Mock<IUserStore<ApplicationUser>>();
             var contextAccessor = new Mock<IHttpContextAccessor>();
-            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<RegisterViewModel>>();
-            var userManager = new UserManager<RegisterViewModel>(userStore.Object, null, null, null, null, null, null, null, null);
-            var signInManager = new SignInManager<RegisterViewModel>(userManager, contextAccessor.Object, claimsFactory.Object, null, null, null);
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
+            var userManager = new UserManager<ApplicationUser>(userStore.Object, null, null, null, null, null, null, null, null);
+            var signInManager = new SignInManager<ApplicationUser>(userManager, contextAccessor.Object, claimsFactory.Object, null, null, null);
             var controller = Activator.CreateInstance(accountController, new object[] { userManager, signInManager });
             Assert.True(accountController.GetField("_userManager", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(controller) == userManager, "`AccountController`'s constructor did not set the `_userManager` field based on the provided `UserManager` parameter.");
             Assert.True(accountController.GetField("_signInManager", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(controller) == signInManager, "`AccountController``s constructor did not set the `_signInManager` field based on the provided `SignInManager` parameter.");

@@ -20,7 +20,7 @@ namespace WishListTests
 
             var userProperty = item.GetProperty("User");
             Assert.True(userProperty != null, "`Item` does not appear to contain a `public` `virtual` `ApplicationUser` property `User`");
-            Assert.True(userProperty.PropertyType == typeof(RegisterViewModel),"`Item` contained a property `User` but it was not of type `ApplicationUser`");
+            Assert.True(userProperty.PropertyType == typeof(ApplicationUser),"`Item` contained a property `User` but it was not of type `ApplicationUser`");
             Assert.True(userProperty.GetMethod.IsVirtual, "`Item` contained a property `User` but it didn't use the `virtual` keyword.");
         }
 
