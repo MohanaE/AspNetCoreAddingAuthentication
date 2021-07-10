@@ -38,6 +38,7 @@ namespace WishList.Controllers
         [AllowAnonymous]
         public IActionResult Register(Models.RegisterViewModel registerViewModel)
         {
+          
             return RedirectToAction("HomeController.Index");
         }
     }
