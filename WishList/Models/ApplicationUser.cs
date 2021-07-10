@@ -4,5 +4,6 @@ namespace WishList.Models
 {
     public class RegisterViewModel : IdentityUser
     {
+
     }
 }
