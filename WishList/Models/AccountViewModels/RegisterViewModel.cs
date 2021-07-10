@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WishList.Models.AccountViewModels
 {
@@ -10,19 +6,16 @@ namespace WishList.Models.AccountViewModels
     {
         [Required]
         [EmailAddress]
-        public String Email { get; set; }
+        public string Email { get; set; }
+
         [Required]
         [StringLength(100, MinimumLength = 8)]
         [DataType(DataType.Password)]
-        public String Password { get; set; }
+        public string Password { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [CompareAttribute("Password")]
-        public String ConfirmPassword { get; set; }
-
-
-
-
+        [Compare("Password")]
+        public string ConfirmPassword { get; set; }
     }
 }
